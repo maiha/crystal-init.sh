@@ -12,24 +12,45 @@ NAME=${2:?"specify project NAME"}
 VERSION=$(crystal -v | cut -d' ' -f2)
 DESC="${NAME} for [Crystal](http://crystal-lang.org/).\n\n- crystal: ${VERSION}"
 
-run() {
-  eval $1
-}
+######################################################################
+### MAIN
 
 # project
-run "crystal init ${TYPE} ${NAME}"
-run "mv ${NAME} ${NAME}.cr"
-run "cd ${NAME}.cr"
-run "echo /.crystal-version > .gitignore"
+crystal init ${TYPE} ${NAME}
+mv ${NAME} ${NAME}.cr
+cd ${NAME}.cr
+
+# .gitignore
+echo "/.crystal-version" >> .gitignore
 
 # README.md
-run "sed -i 's/\b${NAME}\b/${NAME}.cr/g' README.md"
-run "sed -i 's/\[your-github-name\]/$(whoami)/g' README.md"
-run "sed -i 's!^.*description.*\$!${DESC}!' README.md"
+sed -i "s/\b${NAME}\b/${NAME}.cr/g"         README.md
+sed -i "s/\[your-github-name\]/$(whoami)/g" README.md
+sed -i "s!^.*description.*\$!${DESC}!"      README.md
 
 # src
-run "rm src/${NAME}/version.cr"
+rm src/${NAME}/version.cr
 
-# done!
+# shard.yml
+sed -i "s/^name:.*\$/name: ${NAME}.cr/" shard.yml
+
+# .travis.yml
+cat >> .travis.yml <<EOF
+sudo: false
+script:
+  - make test
+EOF
+
+# Makefile
+cat >> Makefile <<EOF
+.PHONY : test
+test: spec
+
+.PHONY : spec
+spec:
+	crystal spec -v --fail-fast
+EOF
+
+######################################################################
+### DONE
 echo "$(tput setaf 2)cd ${NAME}.cr"
-

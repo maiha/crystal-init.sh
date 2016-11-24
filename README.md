@@ -1,4 +1,4 @@
-# crystal-init.sh
+# crystal-init.sh [![Build Status](https://travis-ci.org/maiha/crystal-init.sh.svg?branch=master)](https://travis-ci.org/maiha/crystal-init.sh)
 
 a simple wrapper for crystal init command 
 

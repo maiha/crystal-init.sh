@@ -53,4 +53,4 @@ EOF
 
 ######################################################################
 ### DONE
-echo "$(tput setaf 2)cd ${NAME}.cr"
+echo "$(tput setaf 2)cd ${NAME}.cr$(tput sgr0)"

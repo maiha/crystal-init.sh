@@ -2,27 +2,24 @@
 
 foo for [Crystal](http://crystal-lang.org/).
 
-- crystal: 0.20.0
+- crystal: 0.20.4
 
 ## Installation
-
 
 Add this to your application's `shard.yml`:
 
 ```yaml
 dependencies:
-  foo.cr:
-    github: maiha/foo.cr
+  foo:
+    github: travis/foo.cr
+    version: 0.1.0
 ```
-
 
 ## Usage
 
-
 ```crystal
-require "foo.cr"
+require "foo"
 ```
-
 
 TODO: Write usage instructions here
 
@@ -32,7 +29,7 @@ TODO: Write development instructions here
 
 ## Contributing
 
-1. Fork it ( https://github.com/maiha/foo.cr/fork )
+1. Fork it ( https://github.com/travis/foo.cr/fork )
 2. Create your feature branch (git checkout -b my-new-feature)
 3. Commit your changes (git commit -am 'Add some feature')
 4. Push to the branch (git push origin my-new-feature)
@@ -40,4 +37,4 @@ TODO: Write development instructions here
 
 ## Contributors
 
-- [maiha](https://github.com/maiha) maiha - creator, maintainer
+- [travis](https://github.com/travis)  - creator, maintainer

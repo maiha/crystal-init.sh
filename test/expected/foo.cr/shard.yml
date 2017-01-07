@@ -1,10 +1,8 @@
-name: foo.cr
+name: foo
 version: 0.1.0
 
 authors:
-  - maiha <maiha@wota.jp>
+  -  <>
 
-
-crystal: 0.19.4
 
 license: MIT

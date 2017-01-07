@@ -24,15 +24,17 @@ cd ${NAME}.cr
 echo "/.crystal-version" >> .gitignore
 
 # README.md
-sed -i "s/\b${NAME}\b/${NAME}.cr/g"         README.md
+sed -i "s/^# ${NAME}\b/# ${NAME}.cr/g"      README.md
+sed -i "s!^    github:.*\$!    github: $(whoami)/${NAME}.cr\n    version: 0.1.0!" README.md
 sed -i "s/\[your-github-name\]/$(whoami)/g" README.md
 sed -i "s!^.*description.*\$!${DESC}!"      README.md
+sed -i "s!/${NAME}/fork!/${NAME}.cr/fork!"  README.md
 
 # src
 rm src/${NAME}/version.cr
 
 # shard.yml
-sed -i "s/^name:.*\$/name: ${NAME}.cr/" shard.yml
+sed -i -e "/^crystal:/d" shard.yml
 
 # .travis.yml
 cat >> .travis.yml <<EOF
@@ -42,13 +44,19 @@ script:
 EOF
 
 # Makefile
-cat >> Makefile <<EOF
+cat > Makefile <<EOF
+SHELL=/bin/bash
+
 .PHONY : test
-test: spec
+test: check_version_mismatch spec
 
 .PHONY : spec
 spec:
 	crystal spec -v --fail-fast
+
+.PHONY : check_version_mismatch
+check_version_mismatch: shard.yml README.md
+	diff -w -c <(grep version: README.md) <(grep ^version: shard.yml)
 EOF
 
 ######################################################################
